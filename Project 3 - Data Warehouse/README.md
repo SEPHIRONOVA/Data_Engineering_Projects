@@ -108,22 +108,22 @@ Sparkify is a music streaming company and they've been collecting songs and user
 
 1. Data stored in S3 is first loaded into AWS Redshift database for intermediate storage
 2. Fact Table is loaded with information by joining staging_events and staging_songs directly instead of multiple joins from Dimension Table
-3. Dimension Table is loaded with information in staging_events and staging_songs
+3. Dimension Table is loaded with information in staging_events and staging_songs as well as fact table
 
 ## Sample Query
 
-Sample Query is tested in the test.pynb jupyternotebook
+Sample Query is tested in the test.ipynb jupyter notebook
 
 ### User with most songplay
-'SELECT U.first_name, U.last_name, COUNT(1) as songplay_num  
- FROM songplays SP JOIN users U ON SP.user_id = U.user_id 
- GROUP BY SP.user_id, U.first_name, U.last_name 
- ORDER BY songplay_num DESC 
- LIMIT 1;'
+SELECT U.first_name, U.last_name, COUNT(1) as songplay_num  
+FROM songplays SP JOIN users U ON SP.user_id = U.user_id 
+GROUP BY SP.user_id, U.first_name, U.last_name 
+ORDER BY songplay_num DESC 
+LIMIT 1;
 
 ### Location with most artists
-'SELECT artist_location, COUNT(*) AS artist_num 
- FROM artists 
- WHERE TRIM(artist_location) IS NOT NULL 
- GROUP BY artist_location 
- ORDER BY artist_num DESC LIMIT 1; '
+SELECT artist_location, COUNT(*) AS artist_num 
+FROM artists 
+WHERE TRIM(artist_location) IS NOT NULL 
+GROUP BY artist_location 
+ORDER BY artist_num DESC LIMIT 1; 
