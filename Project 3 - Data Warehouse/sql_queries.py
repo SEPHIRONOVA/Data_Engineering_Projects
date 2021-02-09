@@ -76,26 +76,26 @@ user_table_create = ("""CREATE TABLE IF NOT EXISTS users (
 
 song_table_create = ("""CREATE TABLE IF NOT EXISTS songs ( 
                             song_id VARCHAR SORTKEY PRIMARY KEY, 
-                            title VARCHAR, 
-                            artist_id VARCHAR, 
+                            title VARCHAR NOT NULL, 
+                            artist_id VARCHAR NOT NULL, 
                             year INTEGER, 
                             duration NUMERIC);""")
 
 artist_table_create = ("""CREATE TABLE IF NOT EXISTS artists (
                             artist_id VARCHAR SORTKEY PRIMARY KEY, 
-                            artist_name VARCHAR, 
+                            artist_name VARCHAR NOT NULL, 
                             artist_location VARCHAR, 
                             artist_latitude NUMERIC, 
                             artist_longitude NUMERIC); """)
 
 time_table_create = ("""CREATE TABLE IF NOT EXISTS time (
                             start_time TIMESTAMP SORTKEY PRIMARY KEY, 
-                            hour INTEGER, 
-                            day INTEGER, 
-                            week INTEGER, 
-                            month INTEGER, 
-                            year INTEGER, 
-                            weekday INTEGER); """)
+                            hour INTEGER NOT NULL, 
+                            day INTEGER NOT NULL, 
+                            week INTEGER NOT NULL, 
+                            month INTEGER NOT NULL, 
+                            year INTEGER NOT NULL, 
+                            weekday INTEGER NOT NULL); """)
 
 # STAGING TABLES
 
@@ -120,11 +120,11 @@ copy staging_songs
 
 songplay_table_insert = ("""INSERT INTO songplays (start_time, user_id, level, song_id, artist_id, session_id, location, user_agent) 
                                    SELECT se.ts, se.userId, se.level, se.location, ss.song_id, ss.artist_id, se.sessionId, se.userAgent
-                                   FROM staging_events se JOIN staging_songs ss ON se.song = ss.title AND se.artist = ss.artist_name
+                                   FROM staging_events se JOIN staging_songs ss ON se.song = ss.title AND se.artist = ss.artist_name AND se.length = ss.duration
                                    WHERE se.page = 'NextSong';""")
 
 user_table_insert = ("""INSERT INTO users (user_id, first_name, last_name, gender, level) 
-                              SELECT se.userId, se.firstName, se.lastName, se.gender, se.level
+                              SELECT DISTINCT(se.userId), se.firstName, se.lastName, se.gender, se.level
                               FROM staging_events se
                               WHERE se.page = 'NextSong'; """)
 
@@ -137,7 +137,7 @@ artist_table_insert = ("""INSERT INTO artists (artist_id, artist_name, artist_lo
                               FROM staging_songs ss;""")
 
 time_table_insert = ("""INSERT INTO time(start_time, hour, day, week, month, year, weekday)
-                        SELECT start_time, 
+                        SELECT DISTINCT(start_time), 
                                 EXTRACT(HOUR FROM start_time),
                                 EXTRACT(DAY FROM start_time),
                                 EXTRACT(WEEK FROM start_time),

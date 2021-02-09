@@ -60,7 +60,7 @@ Sparkify is a music streaming company and they've been collecting songs and user
 | level       | VARCHAR        |                           |                                      |
 | song_id     | VARCHAR        | REFERENCES songs UNIQUE   |                                      |
 | artist_id   | VARCHAR        | REFERENCES artists UNIQUE |                                      |
-| session_id  | VARCHAR        |                           |                                      |
+| session_id  | VARCHAR        | NOT NULL                  | Songplay should have a session       |
 | location    | VARCHAR        |                           |                                      |
 | user_agent  | VARCHAR        |                           |                                      |
 
@@ -79,8 +79,8 @@ Sparkify is a music streaming company and they've been collecting songs and user
 | Column Name | Type    | Constraint          | Explanation                   |
 | ---         | ---     | ---                 | ---                           |
 | song_id     | VARCHAR | PRIMARY KEY SORTKEY | PK + Frequent range filtering |
-| title       | VARCHAR |                     |                               |
-| artist_id   | VARCHAR |                     |                               |
+| title       | VARCHAR | NOT NULL            | Song should have title        |
+| artist_id   | VARCHAR | NOT NULL            | Song should have an artist    |
 | year        | INTEGER |                     |                               |
 | duration    | NUMERIC |                     | Have decimals                 |
 
@@ -88,7 +88,7 @@ Sparkify is a music streaming company and they've been collecting songs and user
 | Column Name     | Type    | Constraint          | Explanation                   |
 | ---             | ---     | ---                 | ---                           |
 | artist_id       | VARCHAR | PRIMARY KEY SORTKEY | PK + Frequent range filtering |
-| artist_name     | VARCHAR |                     |                               |
+| artist_name     | VARCHAR | NOT NULL            | Artist should have name       |
 | artist_location | VARCHAR |                     |                               |
 | artist_location | NUMERIC |                     | Have decimals                 |
 | artist_location | NUMERIC |                     | Have decimals                 |
@@ -97,12 +97,12 @@ Sparkify is a music streaming company and they've been collecting songs and user
 | Column Name | Type      | Constraint          | Explanation                   |
 | ---         | ---       | ---                 | ---                           |
 | start_time  | TIMESTAMP | PRIMARY KEY SORTKEY | PK + Frequent range filtering |
-| hour        | INTEGER   |                     |                               |
-| day         | INTEGER   |                     |                               |
-| week        | INTEGER   |                     |                               |
-| month       | INTEGER   |                     |                               |
-| year        | INTEGER   |                     |                               |
-| workday     | INTEGER   |                     |                               |
+| hour        | INTEGER   | NOT NULL            |                               |
+| day         | INTEGER   | NOT NULL            |                               |
+| week        | INTEGER   | NOT NULL            |                               |
+| month       | INTEGER   | NOT NULL            |                               |
+| year        | INTEGER   | NOT NULL            |                               |
+| workday     | INTEGER   | NOT NULL            |                               |
 
 ## ETL pipeline
 
