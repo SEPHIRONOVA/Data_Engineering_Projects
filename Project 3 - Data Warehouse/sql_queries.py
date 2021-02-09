@@ -90,12 +90,12 @@ artist_table_create = ("""CREATE TABLE IF NOT EXISTS artists (
 
 time_table_create = ("""CREATE TABLE IF NOT EXISTS time (
                             start_time TIMESTAMP SORTKEY PRIMARY KEY, 
-                            hour INT, 
-                            day INT, 
-                            week INT, 
-                            month INT, 
-                            year INT, 
-                            workday INT); """)
+                            hour INTEGER, 
+                            day INTEGER, 
+                            week INTEGER, 
+                            month INTEGER, 
+                            year INTEGER, 
+                            weekday INTEGER); """)
 
 # STAGING TABLES
 
@@ -106,7 +106,7 @@ copy staging_events
     region {}
     FORMAT AS json {}
     TIMEFORMAT 'epochmillisecs'
-    TRUNCATECOLUMNS BLANKSASNULL EMPTYASNULL;""").format(LOG_DATA, ARN, REGION, LOG_JSON_DATA) # Need to format the timestamp as millisecs and format json with json log file
+    TRUNCATECOLUMNS BLANKSASNULL EMPTYASNULL;""").format(LOG_DATA, ARN, REGION, LOG_JSON_DATA) 
 
 staging_songs_copy = ("""
 copy staging_songs 
@@ -114,47 +114,41 @@ copy staging_songs
     iam_role {}
     region {}
     FORMAT AS json 'auto'
-    TRUNCATECOLUMNS BLANKSASNULL EMPTYASNULL;""").format(SONG_DATA, ARN, REGION) # Need to format JSON file
+    TRUNCATECOLUMNS BLANKSASNULL EMPTYASNULL;""").format(SONG_DATA, ARN, REGION) 
 
 # FINAL TABLES
 
 songplay_table_insert = ("""INSERT INTO songplays (start_time, user_id, level, song_id, artist_id, session_id, location, user_agent) 
                                    SELECT se.ts, se.userId, se.level, se.location, ss.song_id, ss.artist_id, se.sessionId, se.userAgent
                                    FROM staging_events se JOIN staging_songs ss ON se.song = ss.title AND se.artist = ss.artist_name
-                                   WHERE se.page = 'NextSong'
-                                ON CONFLICT (song_id, artist_id)
-                                   DO NOTHING;
-                           """)
+                                   WHERE se.page = 'NextSong';""")
 
 user_table_insert = ("""INSERT INTO users (user_id, first_name, last_name, gender, level) 
                               SELECT se.userId, se.firstName, se.lastName, se.gender, se.level
                               FROM staging_events se
-                              WHERE se.page = 'NextSong'
-                            ON CONFLICT (user_id) 
-                                DO UPDATE SET level = EXCLUDED.level; """)
+                              WHERE se.page = 'NextSong'; """)
 
 song_table_insert = ("""INSERT INTO songs (song_id, title, artist_id, year, duration) 
                             SELECT DISTINCT(ss.song_id), ss.title, ss.artist_id, ss.year, ss.duration
-                            FROM staging_songs ss
-                      ON CONFLICT (song_id)  
-                          DO NOTHING""")
+                            FROM staging_songs ss;""")
 
 artist_table_insert = ("""INSERT INTO artists (artist_id, artist_name, artist_location, artist_latitude, artist_longitude) 
                               SELECT DISTINCT(ss.artist_id), ss.artist_name, ss.artist_location, ss.artist_latitude, ss.artist_longitude
-                              FROM staging_songs ss 
-                          ON CONFLICT(artist_id) 
-                              DO NOTHING;""")
+                              FROM staging_songs ss;""")
 
-time_table_insert = ("""INSERT INTO time (start_time, hour, day, week, month, year, workday) 
-                              SELECT DISTINCT(se.ts), EXTRACT(HOUR FROM se.ts), EXTRACT(DAY FROM se.ts), EXTRACT(WEEK FROM se.ts), EXTRACT(MONTH FROM se.ts), EXTRACT(YEAR FROM se.ts), EXTRACT(WORKDAY FROM se.ts)
-                              FROM staging_events se
-                              WHERE se.page = 'NextSong'
-                         ON CONFLICT (start_time) 
-                            DO NOTHING;""")
+time_table_insert = ("""INSERT INTO time(start_time, hour, day, week, month, year, weekday)
+                        SELECT start_time, 
+                                EXTRACT(HOUR FROM start_time),
+                                EXTRACT(DAY FROM start_time),
+                                EXTRACT(WEEK FROM start_time),
+                                EXTRACT(MONTH FROM start_time),
+                                EXTRACT(YEAR FROM start_time),
+                                EXTRACT(DAYOFWEEK FROM start_time)
+                        FROM songplays t;""")
 
 # QUERY LISTS
 
 create_table_queries = [staging_events_table_create, staging_songs_table_create, user_table_create, song_table_create, artist_table_create, time_table_create, songplay_table_create]
 drop_table_queries = [staging_events_table_drop, staging_songs_table_drop, user_table_drop, song_table_drop, artist_table_drop, time_table_drop, songplay_table_drop]
 copy_table_queries = [staging_events_copy, staging_songs_copy]
-insert_table_queries = [user_table_insert, song_table_insert, artist_table_insert, time_table_insert, songplay_table_insert]
+insert_table_queries = [songplay_table_insert,  user_table_insert, song_table_insert, artist_table_insert, time_table_insert]
