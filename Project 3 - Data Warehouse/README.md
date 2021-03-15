@@ -1,7 +1,7 @@
 # Project: Data Warehouse
 
 ## Introduction
-Sparkify is a music streaming company and they've been collecting songs and user activities. Analytics team in Sparkify is interested in understanding what songs users are listening to. As their business is growing, they need to move their business to cloud. And their current JSON jogs resides on AWS S3.  
+Sparkify is a music streaming company and they've been collecting songs and user activities. Analytics team in Sparkify is interested in understanding what songs users are listening to. As their business is growing, they need to move their business to cloud. And their current JSON logs resides on AWS S3.  
 
 ## Purpose of the project: 
 1. Design the table and select best key(sort key/dist key) for fast data processing
