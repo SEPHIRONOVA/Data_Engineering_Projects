@@ -6,7 +6,7 @@ from airflow.utils.decorators import apply_defaults
 class StageToRedshiftOperator(BaseOperator):
     ui_color = '#358140'
     
-    #template_fields = ("s3_key",)
+    template_fields = ("s3_key",)
     copy_sql = """
         COPY {}
         FROM '{}'
@@ -71,22 +71,15 @@ class StageToRedshiftOperator(BaseOperator):
         if self.path == '':
             self.path = 'auto'
         
-        #formatted_sql = StageToRedshiftOperator.copy_sql.format(
-        #    self.table,
-        #    s3_path,
-        #    credentials.access_key,
-        #    credentials.secret_key,
-        #    self.region,
-        #    self.file_format,
-        #    self.path
-        #)
-        
-        formatted_sql = f"COPY {self.table} FROM '{s3_path}' \
-                        f"ACCESS_KEY_ID '{credentials.access_key}' " \
-                        f"SECRET_ACCESS_KEY '{credentials.secret_key}'" \
-                        f"REGION '{self.region}'" \
-                        f"{self.file_format}" \
-                        f"'{self.path}'"
+        formatted_sql = StageToRedshiftOperator.copy_sql.format(
+            self.table,
+            s3_path,
+            credentials.access_key,
+            credentials.secret_key,
+            self.region,
+            self.file_format,
+            self.path
+        )
         
         redshift.run(formatted_sql)
         
