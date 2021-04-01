@@ -60,20 +60,30 @@ It create tables in AWS Redshift to store fact & dimension table. It takes follo
 * Stage Operator
 Stage operator loads data in JSON format from AWS S3 to Redshift. It creates a parametric COPY statement based on following parameters:
   **table** : the table to load into
+  
   **conn_id** : AWS Redshift connection id
+  
   **aws_credentials_id** : AWS username and password
+  
   **s3_bucket** : S3 bucket
+  
   **s3_key** : S3 bucket key
+  
   **region** : region of server
+  
   **file_format** : format of source file(e.g. JSON)
+  
   **optional_path** : optional file contains json folder
 
 * Fact & Dimension Operator
 Fact & Dimension Operators process and load data in staging table into fact & dimension table. It establish a connection with AWS Hook and insert with sql query based on following parameters:
 
   **table** : the table to load into
+  
   **conn_id** : AWS Redshift connection id
+  
   **sql_statement** : sql_query
+  
   **reset_table** : option to determine reset table
   
 * Data Quality Operator
@@ -82,8 +92,9 @@ Quality check on data loaded in the facts & dimension table if the table:
 2. Data value has more than 0 rows
 
 It needs following parameters:
-        **conn_id** : AWS Redshift connection id
-        **tables[]** : A list contains table need to be checked 
+   **conn_id** : AWS Redshift connection id
+	
+   **tables[]** : A list contains table need to be checked 
 
 ## Helpers
 * create_table_queries
