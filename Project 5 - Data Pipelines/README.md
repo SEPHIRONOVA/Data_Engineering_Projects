@@ -48,7 +48,7 @@ Default Parameters
   * Owner
 
 Task Dependecies
-![../images/task_dependencies.png](../images/task_dependencies.png)
+![/images/task_dependencies.png](/images/task_dependencies.png)
 
 ## Operators
 
