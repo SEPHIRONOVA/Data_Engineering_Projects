@@ -3,7 +3,17 @@ from airflow.models import BaseOperator
 from airflow.utils.decorators import apply_defaults
 
 class LoadFactOperator(BaseOperator):
+    """
+    Initialize the LoadFactOperator
 
+    Args:
+        conn_id: connection id for redshift
+        table: redshift cluster table name
+        sql_query: a SQL query to load dimension table
+        reset_table: option to reset the table at beginning
+        
+    Returns: None
+    """
     ui_color = '#F98866'
 
     @apply_defaults

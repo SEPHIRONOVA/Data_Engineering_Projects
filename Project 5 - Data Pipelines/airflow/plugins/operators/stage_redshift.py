@@ -4,8 +4,23 @@ from airflow.models import BaseOperator
 from airflow.utils.decorators import apply_defaults
 
 class StageToRedshiftOperator(BaseOperator):
-    ui_color = '#358140'
+    """
+    Initialize the StageToRedshiftOperator
+
+    Args:
+        table: redshift cluster table name
+        conn_id: connection id for redshift
+        aws_credentials_id: AWS credentials for connection
+        s3_bucket: S3 bucket name
+        s3_key: S3 key files 
+        region: region of the server
+        format: the format of file to load
+        optional_path: an optional path contains all paths for file
+        
+    Returns: None
+    """
     
+    ui_color = '#358140'
     template_fields = ("s3_key",)
     copy_sql = """
         COPY {}
@@ -14,7 +29,7 @@ class StageToRedshiftOperator(BaseOperator):
         SECRET_ACCESS_KEY '{}'
         REGION '{}'
         FORMAT AS {} '{}'
-        TIMEFORMAT 'epochmillisecs'
+        TIMEFORMAT 'epochmillisecs' 
         TRUNCATECOLUMNS BLANKSASNULL EMPTYASNULL
     """
     
@@ -30,19 +45,7 @@ class StageToRedshiftOperator(BaseOperator):
                  optional_path="",
                  *args, **kwargs
                 ):
-        """
-        Initialize the StageToRedshiftOperator
-        
-        Args:
-        table: redshift cluster table name
-        conn_id: connection id 
-        aws_credentials_id: AWS credentials for connection
-        s3_bucket: S3 bucket name
-        s3_key: S3 key files 
-        region: region of the server
-        format: the format of file to load
-        optional_path: an optional path contains all paths for file
-        """
+
         super(StageToRedshiftOperator, self).__init__(*args, **kwargs)
         self.table = table
         self.conn_id = conn_id
@@ -61,11 +64,10 @@ class StageToRedshiftOperator(BaseOperator):
         credentials = aws_hook.get_credentials()
         redshift = PostgresHook(postgres_conn_id=self.conn_id)
         
-        self.log.info("Clearing data from destination Redshift table")
-        redshift.run("DELETE FROM {}".format(self.table))
+        rendered_key = self.s3_key.format(**context)
         
         self.log.info("Copying data from S3 to Redshift")
-        s3_path = "s3://{}/{}".format(self.s3_bucket, self.s3_key)
+        s3_path = "s3://{}/{}".format(self.s3_bucket, rendered_key)
         
         # If no path contain all json files given, it will use auto formatting
         if self.path == '':
@@ -83,7 +85,7 @@ class StageToRedshiftOperator(BaseOperator):
         
         redshift.run(formatted_sql)
         
-        self.info.logging("Successfully loaded {} data to redshift".format(self.table))
+        self.log.info("Successfully loaded {} data to redshift".format(self.table))
 
 
 

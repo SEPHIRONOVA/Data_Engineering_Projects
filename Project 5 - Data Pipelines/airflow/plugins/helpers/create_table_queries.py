@@ -16,7 +16,7 @@ staging_events_table_create= ("""CREATE TABLE IF NOT EXISTS staging_events (
                                 sessionId INTEGER,
                                 song VARCHAR,
                                 status INTEGER,
-                                ts TIMESTAMP,
+                                ts BIGINT,
                                 userAgent VARCHAR,
                                 userId INTEGER);""")
 
@@ -33,21 +33,21 @@ staging_songs_table_create = ("""CREATE TABLE IF NOT EXISTS staging_songs (
                                 year INTEGER);""")
 
 songplay_table_create = ("""CREATE TABLE IF NOT EXISTS songplays ( 
-                                    songplay_id INTEGER IDENTITY(0,1) PRIMARY KEY, 
+                                    songplay_id VARCHAR PRIMARY KEY, 
                                     start_time TIMESTAMP REFERENCES time(start_time) SORTKEY, 
-                                    user_id VARCHAR NOT NULL REFERENCES users(user_id) DISTKEY, 
+                                    userid VARCHAR NOT NULL REFERENCES users(user_id) DISTKEY, 
                                     level VARCHAR, 
                                     song_id VARCHAR REFERENCES songs(song_id), 
                                     artist_id VARCHAR REFERENCES artists(artist_id), 
-                                    session_id VARCHAR, 
+                                    sessionid VARCHAR, 
                                     location VARCHAR, 
-                                    user_agent VARCHAR,
+                                    useragent VARCHAR,
                                     UNIQUE(song_id, artist_id));""")
 
 user_table_create = ("""CREATE TABLE IF NOT EXISTS users ( 
-                                      user_id VARCHAR DISTKEY PRIMARY KEY, 
-                                      first_name VARCHAR, 
-                                      last_name VARCHAR, 
+                                      userid VARCHAR DISTKEY PRIMARY KEY, 
+                                      firstname VARCHAR, 
+                                      lastname VARCHAR, 
                                       gender VARCHAR, 
                                       level VARCHAR);""")
 
