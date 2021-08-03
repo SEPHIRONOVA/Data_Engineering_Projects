@@ -1,0 +1,53 @@
+﻿CODE,INDICATOR,TYPE
+GDP,Gross Domestic Product,Growth
+GDPC1,Real Gross Domestic Product,Growth
+GDPPOT,Real Potential Gross Domestic Product,Growth
+CPIAUCSL,Consumer Price Index for All Urban Consumers: All Items,Prices and Inflation
+CPILFESL,Consumer Price Index for All Urban Consumers: All Items Less Food & Energy,Prices and Inflation
+GDPDEF,Gross Domestic Product: Implicit Price Deflator,Prices and Inflation
+BASE,St. Louis Adjusted Monetary Base,Money Supply
+M1,M1 Money Stock,Money Supply
+M2,M2 Money Stock,Money Supply
+M1V,Velocity of M1 Money Stock,Money Supply
+M2V,Velocity of M2 Money Stock,Money Supply
+DFF,Effective Federal Funds Rate,Interest Rates
+DTB3,3-Month Treasury Bill: Secondary Market Rate,Interest Rates
+DGS5,5-Year Treasury Constant Maturity Rate,Interest Rates
+DGS10,10-Year Treasury Constant Maturity Rate,Interest Rates
+DGS30,30-Year Treasury Constant Maturity Rate,Interest Rates
+T5YIE,5-year Breakeven Inflation Rate,Interest Rates
+T10YIE,10-year Breakeven Inflation Rate,Interest Rates
+T5YIFR,"5-Year, 5-Year Forward Inflation Expectation Rate",Interest Rates
+TEDRATE,TED Spread,Employment
+DPRIME,Bank Prime Loan Rate,Employment
+UNRATE,Civilian Unemployment Rate,Employment
+NROU,Natural Rate of Unemployment (Long-Term),Employment
+NROUST,Natural Rate of Unemployment (Short-Term),Employment
+CIVPART,Civilian Labor Force Participation Rate,Employment
+EMRATIO,Civilian Employment-Population Ratio,Employment
+UNEMPLOY,Unemployed,Employment
+PAYEMS,All Employees: Total nonfarm,Employment
+MANEMP,All Employees: Manufacturing,Employment
+ICSA,Initial Claims,Employment
+IC4WSA,4-Week Moving Average of Initial Claims,Employment
+MEHOINUSA672N,Real Median Household Income in the United States,Income and Expenditure
+DSPIC96,Real Disposable Personal Income,Income and Expenditure
+PCE,Personal Consumption Expenditures,Income and Expenditure
+PCEDG,Personal Consumption Expenditures: Durable Goods,Income and Expenditure
+PSAVERT,Personal Saving Rate,Income and Expenditure
+RRSFS,Real Retail and Food Services Sales,Income and Expenditure
+DSPI,Disposable personal income,Income and Expenditure
+INDPRO,Industrial Production Index,Other
+TCU,Capacity Utilization: Total Industry,Other
+HOUST,Housing Starts: Total: New Privately Owned Housing Units Started,Other
+GPDI,Gross Private Domestic Investment,Other
+CP,Corporate Profits After Tax (without IVA and CCAdj),Other
+STLFSI,St. Louis Fed Financial Stress Index,Other
+DCOILWTICO,"Crude Oil Prices: West Texas Intermediate (WTI) - Cushing, Oklahoma",Other
+USSLIND,Leading Index for the United States,Other
+DTWEXM,Trade Weighted U.S. Dollar Index: Major Currencies,Other
+DTWEXB,Trade Weighted U.S. Dollar Index: Broad,Other
+GFDEBTN,Federal Debt: Total Public Debt,Debt
+GFDEGDQ188S,Federal Debt: Total Public Debt as Percent of Gross Domestic Product,Debt
+EXCSRESNW,Excess Reserves of Depository Institutions,Debt
+TOTCI,"Commercial and Industrial Loans, All Commercial Banks",Debt
