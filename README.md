@@ -26,3 +26,9 @@ Built the ETL process on cloud with Spark and load back to AWS S3
 Construct data pipelines with Airflow by loading data from AWS S3 to AWS Redshift
 
 [Link](https://github.com/SEPHIRONOVA/Data_Engineering_Projects/tree/main/Project%205%20-%20Data%20Pipelines)
+
+
+## Capstone Project - ETF Research Data Pipeline
+Created a data pipeline for index in different geographical location and different sectors. It allows for easily accessible index data for ETF research purpose.
+
+[Link](https://github.com/SEPHIRONOVA/Data_Engineering_Projects/tree/main/Capstone%20Project)
